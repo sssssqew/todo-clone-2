@@ -9,6 +9,16 @@ const todoSchema = new Schema({
         required: true, 
         ref: 'User'
     },
+    category: {
+        type: String,
+        required: true, 
+        trim: true 
+    },
+    imgUrl: {
+        type: String,
+        required: true, 
+        trim: true 
+    },
     title: {
         type: String, 
         required: true, 
