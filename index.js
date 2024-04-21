@@ -11,7 +11,7 @@ const todosRouter = require('./src/routes/todos')
 const config = require('./config')
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: '*',
     credentials: true 
 }
 

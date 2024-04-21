@@ -146,7 +146,8 @@ router.get('/group/date/:field', isAuth, isAdmin, expressAsyncHandler(async (req
           _id: { year: { $year: `$${req.params.field}` }, month: { $month: `$${req.params.field}` } },
           count: { $sum: 1 }
         }
-      }
+      },
+      { $sort : { _id : 1 } } // 날짜 오름차순 정렬
     ])
     
     console.log(`Number Of Group: ${docs.length}`) // 그룹 갯수
@@ -168,7 +169,8 @@ router.get('/group/mine/date/:field', isAuth, expressAsyncHandler(async (req, re
           _id: { year: { $year: `$${req.params.field}` }, month: { $month: `$${req.params.field}` } },
           count: { $sum: 1 }
         }
-      }
+      },
+      { $sort : { _id : 1 } } // 날짜 오름차순 정렬
     ])
     
     console.log(`Number Of Group: ${docs.length}`) // 그룹 갯수
