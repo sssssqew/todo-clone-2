@@ -9,6 +9,7 @@ const axios = require('axios')
 const usersRouter = require('./src/routes/users')
 const todosRouter = require('./src/routes/todos')
 const config = require('./config')
+const validator = require('./validator')
 
 const corsOptions = {
     origin: '*',

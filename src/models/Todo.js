@@ -46,6 +46,10 @@ const todoSchema = new Schema({
     }
 })
 
+todoSchema.path('category').validate(function(value){
+    return /오락|공부|음식|자기계발|업무|패션|여행/.test(value)
+}, 'category `{VALUE}` 는 유효하지 않은 카테고리입니다.')
+
 const Todo = mongoose.model('Todo', todoSchema)
 module.exports = Todo 
 
