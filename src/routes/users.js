@@ -40,7 +40,10 @@ router.post('/register', [
             res.json({
                 code: 200,
                 token: generateToken(newUser), // 시그니쳐(암호화된 사용자정보)
-                name, email, userId, isAdmin, createdAt
+                name, email, userId, isAdmin, createdAt,
+                status: newUser.status,
+                createdAgo: newUser.createdAgo,
+                lastModifiedAgo: newUser.lastModifiedAgo
             })
         }
     }
@@ -63,13 +66,17 @@ router.post('/login', [
             password: req.body.password 
         })
         if(!loginUser){
+            console.log(loginUser)
             res.status(401).json({ code: 401, message: 'Invalid Email or Password'})
         }else{
             const { name, email, userId, isAdmin, createdAt } = loginUser
             res.json({
                 code: 200,
                 token: generateToken(loginUser),
-                name, email, userId, isAdmin, createdAt 
+                name, email, userId, isAdmin, createdAt,
+                status: loginUser.status,
+                createdAgo: loginUser.createdAgo,
+                lastModifiedAgo: loginUser.lastModifiedAgo
             })
         }
     }
@@ -105,7 +112,10 @@ router.put('/', [
             res.json({
             code: 200,
             token: generateToken(updatedUser),
-            name, email, userId, isAdmin, createdAt
+            name, email, userId, isAdmin, createdAt,
+            status: updatedUser.status,
+                createdAgo: updatedUser.createdAgo,
+                lastModifiedAgo: updatedUser.lastModifiedAgo
             })
         }
     }
