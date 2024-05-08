@@ -3,7 +3,7 @@ const User = require('../models/User')
 const expressAsyncHandler = require('express-async-handler')
 const { generateToken, isAuth } = require('../../auth')
 const { limitUsage } = require('../../limiter')
-const { validationResult } = require('express-validator')
+const { validationResult, oneOf } = require('express-validator')
 const {
     validateUserName,
     validateUserEmail,
@@ -85,11 +85,13 @@ router.post('/login', limitUsage, [
 router.post('/logout', (req, res, next) => {
     res.json("로그아웃")
 })
-router.put('/', limitUsage, [
+router.put('/', limitUsage, oneOf([
     validateUserName(),
     validateUserEmail(),
     validateUserPassword()
-],isAuth, expressAsyncHandler( async (req, res, next) => {
+], {
+    message: 'At least one field of user must be provided'
+}), isAuth, expressAsyncHandler( async (req, res, next) => {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
         res.status(400).json({
