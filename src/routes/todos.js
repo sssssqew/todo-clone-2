@@ -15,15 +15,15 @@ const {
 const router = express.Router()
 
   // isAuth : 전체 할일목록을 조회할 권한이 있는지 검사하는 미들웨어 
-  router.get('/', limitUsage, isAuth, expressAsyncHandler(async (req, res, next) => {
-    const todos = await Todo.find({ author: req.user._id }).populate('author', ['name', 'userId']) // req.user 는 isAuth 에서 전달된 값
+  router.get('/', isAuth, expressAsyncHandler(async (req, res, next) => {
+    const todos = await Todo.find({ author: req.user._id }).populate('author', ['name', 'email', 'userId', 'createdAt', 'lastModifiedAt']) // req.user 는 isAuth 에서 전달된 값
     if(todos.length === 0){
       res.status(404).json({ code: 404, message: 'Fail to find todos !'})
     }else{
       res.json({ code: 200, todos: todos.map(todo => {
         return {...todo._doc, createdAgo: todo.createdAgo, 
               lastModifiedAgo: todo.lastModifiedAgo,
-              finishedAgo: todo.finishedAgo}
+              finishedAgo: todo.finishedAgo, author: {...todo.author._doc, createdAgo: todo.author.createdAgo, lastModifiedAgo: todo.author.lastModifiedAgo}}
       }) })
     }
   }))

@@ -49,7 +49,7 @@ router.post('/register', limitUsage, [
         }
     }
 }))
-router.post('/login', limitUsage, [
+router.post('/login', [
     validateUserEmail(),
     validateUserPassword()
 ], expressAsyncHandler( async (req, res, next) => {
@@ -64,7 +64,7 @@ router.post('/login', limitUsage, [
         console.log(req.body)
         const loginUser = await User.findOne({
             email: req.body.email, 
-            password: req.body.password 
+            password: req.body.password     
         })
         if(!loginUser){
             console.log(loginUser)
